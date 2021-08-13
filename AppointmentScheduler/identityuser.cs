@@ -1,6 +1,7 @@
 ﻿namespace AppointmentScheduler
 {
-    internal class identityuser
+    internal class identityuser 
     {
+
     }
 }
