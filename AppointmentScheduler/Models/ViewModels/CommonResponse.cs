@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AppointmentScheduler.Models.ViewModels
 {
-    public class CommomResponse<T>
+    public class CommonResponse<T>
     {
         public int status { get; set; }
 
