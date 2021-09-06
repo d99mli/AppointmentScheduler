@@ -14,9 +14,9 @@ namespace AppointmentScheduler.Controllers
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _db;
-        UserManager<ApplicationUser> _userManager;
-        SignInManager<ApplicationUser> _signInManager;
-        RoleManager<IdentityRole> _roleManager;
+        readonly UserManager<ApplicationUser> _userManager;
+        readonly SignInManager<ApplicationUser> _signInManager;
+        readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountController(ApplicationDbContext db, UserManager<ApplicationUser> userManager, 
             RoleManager<IdentityRole> roleManager, SignInManager<ApplicationUser> signInManager)
@@ -55,14 +55,7 @@ namespace AppointmentScheduler.Controllers
         // GET action Register
         public async Task<IActionResult> Register()
         {
-            if (!_roleManager.RoleExistsAsync(Helper.Admin).GetAwaiter().GetResult())
-            {
-                await _roleManager.CreateAsync(new IdentityRole(Helper.Admin));
-                await _roleManager.CreateAsync(new IdentityRole(Helper.Doctor));
-                await _roleManager.CreateAsync(new IdentityRole(Helper.Patient));
-            }
-
-            return View();
+           return View();
         }
 
         // POST action Register
@@ -86,6 +79,10 @@ namespace AppointmentScheduler.Controllers
                     if (!User.IsInRole(Helper.Admin))
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
+                    }
+                    else
+                    {
+                        TempData["newAdminSignUp"] = user.Name;
                     }
                     return RedirectToAction("Index", "Appointment");
                 }
